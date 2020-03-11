@@ -2,14 +2,13 @@ import React, { Component } from 'react';
 import { reduxForm, Field } from 'redux-form';
 import { compose } from 'redux';
 import { connect } from 'react-redux';
-import * as actions from '../../actions';
+import { signin } from '../../actions';
 
-class Signup extends Component {
+class Signin extends Component {
   onSubmit = (formProps) => {
-    this.props.signup(formProps, () => {
+    this.props.signin(formProps, () => {
       this.props.history.push('/feature')
     });
-    console.log(formProps);
   };
 
   render() {
@@ -37,7 +36,7 @@ class Signup extends Component {
           />
         </fieldset>
         <div>{this.props.errorMessage}</div>
-        <button>Sign up</button>
+        <button>Sign in</button>
       </form>
     )
   }
@@ -47,8 +46,12 @@ function mapStateToProps(state) {
   return { errorMessage: state.auth.errorMessage };
 }
 
+const mapDispatchToProps = {
+  signin, // will be wrapped into a dispatch call
+};
+
 // Include multiple higher order functions without the rightward drift of the code
 export default compose(
-  connect(mapStateToProps, actions),
-  reduxForm({ form: 'signup' }) 
-)(Signup);
+  connect(mapStateToProps, mapDispatchToProps),
+  reduxForm({ form: 'signin' }) 
+)(Signin);
